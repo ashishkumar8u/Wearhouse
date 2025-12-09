@@ -14,40 +14,35 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "NEWMARK - Class A Industrial Warehouses for Lease in Mexico | Tlalnepantla & Jilotepec",
-  description: "Brand-new Class A industrial facilities for lease in Tlalnepantla and Jilotepec, Mexico. Prime locations for logistics, e-commerce, and last-mile operations. Immediate availability. Contact for pricing.",
-  keywords: [
-    "industrial warehouse for lease",
-    "warehouse for rent mexico",
-    "warehouse for rent cdmx",
-    "industrial property for sale",
-    "logistics warehouse for rent",
-    "class A warehouse mexico",
-    "industrial real estate mexico",
-    "last mile warehouse",
-    "distribution center for rent",
-    "fulfillment warehouse mexico",
-    "warehouse Tlalnepantla",
-    "warehouse Jilotepec",
-    "industrial warehouse Cuautitlán",
-    "warehouse near AIFA",
-    "warehouse near Arco Norte",
-    "immediate availability warehouse",
-    "nearshoring mexico industrial",
-    "mexico logistics hub",
-    "mexico distribution center",
-  ].join(", "),
-  openGraph: {
-    title: "NEWMARK - Class A Industrial Warehouses for Lease in Mexico",
-    description: "Brand-new Class A industrial facilities for lease in prime locations. Immediate availability for logistics, e-commerce, and distribution operations.",
-    type: "website",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const title = "";
+  const description = "";
+  const url = "";
+  const ogImage = "";
+
+  return {
+    title,
+    description,
+    keywords: "",
+    openGraph: {
+      title,
+      description,
+      url: url || undefined,
+      type: "website",
+      images: ogImage ? [{ url: ogImage }] : [],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ogImage ? [ogImage] : [],
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 export default function RootLayout({
   children,
