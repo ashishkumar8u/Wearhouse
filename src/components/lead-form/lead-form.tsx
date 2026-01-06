@@ -226,6 +226,7 @@ export default function LeadForm() {
                 : 'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
             }`}
             placeholder={`Enter ${field.label.toLowerCase()}`}
+            suppressHydrationWarning
           />
           {hasError && (
             <p className="mt-1 text-sm text-[#173C65] font-['Assistant',sans-serif]">
@@ -256,6 +257,7 @@ export default function LeadForm() {
                 ? 'border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200'
                 : 'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
             }`}
+            suppressHydrationWarning
           >
             <option value="">Select {field.label}</option>
             {field.options?.map((option: string) => (
@@ -294,6 +296,7 @@ export default function LeadForm() {
               : 'border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100'
           }`}
           placeholder={`Enter ${field.label.toLowerCase()}`}
+          suppressHydrationWarning
         />
         {hasError && (
           <p className="mt-1 text-sm text-blue-500 font-['Assistant',sans-serif]">
@@ -347,7 +350,7 @@ export default function LeadForm() {
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-5 md:p-6 lg:p-7">
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-xl p-5 md:p-6 lg:p-7" suppressHydrationWarning>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
             {warehouseConfig.leadForm.fields.map((field: typeof warehouseConfig.leadForm.fields[0]) => {
               // Full-width fields (textarea and some others)
@@ -369,7 +372,8 @@ export default function LeadForm() {
               type="submit"
               disabled={isSubmitting}
               onClick={() => trackButtonClick('lead-form-submit')}
-              className="px-5 py-2.5 cursor-pointer rounded-lg font-semibold text-sm transition-all duration-200 w-full sm:w-auto min-w-[150px] disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 border-2 bg-white text-black border-[#173C65] font-['Assistant',sans-serif]"
+              className="px-5 py-2.5 cursor-pointer rounded-lg font-semibold text-sm transition-all duration-200 w-full sm:w-auto min-w-[150px] disabled:opacity-50 disabled:cursor-not-allowed  border-2 bg-[#173C65] text-white  font-['Assistant',sans-serif] hover:-translate-y-1"
+              suppressHydrationWarning
             >
               {isSubmitting ? t('form.submitting') : warehouseConfig.ctas.primary.text}
             </button>

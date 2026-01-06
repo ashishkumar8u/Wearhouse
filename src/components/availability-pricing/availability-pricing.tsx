@@ -128,11 +128,8 @@ export default function AvailabilityPricing() {
               <a
                 href="#contact"
                 onClick={() => trackButtonClick('availability-contact-cta')}
-                className="px-6 py-2 rounded-lg text-wrap font-semibold text-sm font-['Assistant',sans-serif]
-             border-2 border-[#173C65] bg-white text-black text-center
-             transition-all duration-300
-             hover:bg-[#173C65] hover:text-white
-             hover:-translate-y-1 hover:shadow-lg"
+                className="px-6 py-2 rounded-lg text-wrap hover:-translate-y-1 font-semibold text-sm font-['Assistant',sans-serif] border-2  bg-[#173C65] text-white text-center transition-all duration-300  hover:-translate-y-1 hover:shadow-lg"
+                suppressHydrationWarning
               >
                 {t('availability.contactUs')}
               </a>

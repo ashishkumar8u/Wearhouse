@@ -52,7 +52,7 @@ export default function Apartments() {
     <section className="py-16 lg:py-24 bg-white relative overflow-hidden" id="features">
       {/* Background Image with Opacity */}
       <div
-        className="absolute inset-0 bg-no-repeat bg-center bg-cover opacity-30 z-0"
+        className="absolute inset-0 bg-no-repeat bg-center bg-cover opacity-30 z-0 max-w-[1520px] mx-auto"
         style={{
           backgroundImage: `url(${bgImageUrl})`,
         }}
@@ -105,6 +105,9 @@ export default function Apartments() {
                           alt={card.label}
                           fill
                           className="object-cover rounded-t-lg"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          loading="lazy"
+                          quality={75}
                         />
                       )}
                     </div>

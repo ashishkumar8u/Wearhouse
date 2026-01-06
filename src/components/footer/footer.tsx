@@ -24,7 +24,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-[var(--gray-dark)] text-white">
+    <footer className="bg-[var(--gray-dark)] max-w-[1520px] mx-auto text-white">
       <div className="container lg:max-w-7xl w-[94%] mx-auto  py-12 lg:py-16">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-8">
@@ -37,6 +37,9 @@ export default function Footer() {
                 width={150}
                 height={38}
                 className="h-6 w-auto brightness-0 invert"
+                loading="lazy"
+                quality={85}
+                sizes="150px"
               />
             </div>
             <p

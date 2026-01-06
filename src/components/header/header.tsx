@@ -14,40 +14,64 @@ export default function Header() {
   const { language, setLanguage, t } = useLanguage();
 
   useEffect(() => {
+    // Use requestAnimationFrame to batch DOM reads/writes and prevent forced reflows
+    let ticking = false;
+    
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setIsScrolled(window.scrollY > 0);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Smooth scroll with offset for anchor links
+  // Smooth scroll with offset for anchor links - optimized to prevent forced reflows
   useEffect(() => {
+    // Cache header height to avoid repeated DOM reads
+    let cachedHeaderHeight = 140;
+    let resizeTimeout: NodeJS.Timeout | undefined;
+    
+    const updateHeaderHeight = () => {
+      const header = document.querySelector('header');
+      if (header) {
+        cachedHeaderHeight = header.offsetHeight + 20;
+      }
+    };
+    
+    // Update header height once on mount
+    updateHeaderHeight();
+    
+    // Update on resize (debounced)
+    const handleResize = () => {
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
+      resizeTimeout = setTimeout(updateHeaderHeight, 150);
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    
     const scrollToSection = (targetId: string, smooth: boolean = true) => {
       const targetElement = document.getElementById(targetId);
       
       if (targetElement) {
-        // Calculate header height dynamically - get the full header including both bars
-        const header = document.querySelector('header');
-        let headerHeight = 140; // Default fallback
-        
-        if (header) {
-          // Get the actual rendered height of the header
-          headerHeight = header.offsetHeight;
+        // Batch DOM reads using requestAnimationFrame
+        requestAnimationFrame(() => {
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - cachedHeaderHeight;
           
-          // Add a small buffer for better spacing
-          headerHeight += 20;
-        }
-        
-        // Calculate scroll position with offset
-        const elementPosition = targetElement.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
-        
-        // Smooth scroll to position
-        window.scrollTo({
-          top: Math.max(0, offsetPosition), // Ensure we don't scroll to negative position
-          behavior: smooth ? 'smooth' : 'auto'
+          // Batch DOM writes
+          requestAnimationFrame(() => {
+            window.scrollTo({
+              top: Math.max(0, offsetPosition),
+              behavior: smooth ? 'smooth' : 'auto'
+            });
+          });
         });
       }
     };
@@ -88,10 +112,14 @@ export default function Header() {
 
     return () => {
       document.removeEventListener('click', handleAnchorClick);
+      window.removeEventListener('resize', handleResize);
+      if (resizeTimeout) {
+        clearTimeout(resizeTimeout);
+      }
     };
   }, []);
 
-  // Intersection Observer for active section detection
+  // Intersection Observer for active section detection - optimized to prevent forced reflows
   useEffect(() => {
     const sections = ['home', 'features', 'locations', 'specifications', 'gallery', 'contact'];
     
@@ -102,36 +130,62 @@ export default function Header() {
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
+      // Batch state updates
+      requestAnimationFrame(() => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
       });
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-    sections.forEach((sectionId) => {
-      const element = document.getElementById(sectionId);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    // Set initial active section
-    const handleInitialScroll = () => {
-      const scrollPosition = window.scrollY + 100;
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const element = document.getElementById(sections[i]);
-        if (element && element.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]);
-          break;
+    // Use requestIdleCallback for non-critical DOM reads
+    const observeSections = () => {
+      sections.forEach((sectionId) => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          observer.observe(element);
         }
+      });
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(observeSections);
+    } else {
+      setTimeout(observeSections, 0);
+    }
+
+    // Set initial active section - optimized to batch DOM reads
+    let ticking = false;
+    const handleInitialScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY + 100;
+          // Batch all DOM reads
+          const elements = sections.map(id => ({
+            id,
+            element: document.getElementById(id)
+          }));
+          
+          for (let i = elements.length - 1; i >= 0; i--) {
+            const { id, element } = elements[i];
+            if (element && element.offsetTop <= scrollPosition) {
+              setActiveSection(id);
+              break;
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
     
-    handleInitialScroll();
-    window.addEventListener('scroll', handleInitialScroll);
+    // Delay initial scroll check to avoid blocking initial render
+    setTimeout(handleInitialScroll, 100);
+    window.addEventListener('scroll', handleInitialScroll, { passive: true });
 
     return () => {
       observer.disconnect();
@@ -156,9 +210,9 @@ export default function Header() {
   const formattedPhoneNumber = warehouseConfig.contact.phoneNumber.replace(/\s|-|\(|\)/g, '');
 
   return (
-    <header className="w-full  bg-white sticky top-0 z-999">
+    <header className="w-[1520px]  bg-white sticky top-0 z-999">
       {/* Main Navigation Bar */}
-      <nav className={`w-full  py-4 px-4 md:px-6 lg:px-8 transition-colors duration-300 fixed top-0 left-0 right-0 z-100 ${isScrolled ? 'bg-white' : 'bg-[#EFF6FF]'}`}>
+      <nav className={`max-w-[1520px] mx-auto  py-4 px-4 md:px-6 lg:px-8 transition-colors duration-300 fixed top-0 left-0 right-0 z-100 ${isScrolled ? 'bg-white' : 'bg-[#EFF6FF]'}`}>
         <div className="max-w-7xl mx-auto  flex items-center justify-between">
           {/* Mobile: Hamburger on the left */}
           <button
@@ -202,6 +256,8 @@ export default function Header() {
               height={45}
               className="h-6 w-auto"
               priority
+              quality={90}
+              sizes="180px"
             />
           </div>
 
@@ -264,7 +320,7 @@ export default function Header() {
             <a
               href={`tel:${formattedPhoneNumber}`}
               onClick={() => trackButtonClick('header-desktop-call-now')}
-              className="inline-flex items-center justify-center text-sm font-semibold text-white bg-[#173C65] px-4 py-2 rounded-md shadow-sm"
+              className="inline-flex hover:-translate-y-1 items-center justify-center text-sm font-semibold text-white bg-[#173C65] px-4 py-2 rounded-md shadow-sm"
             >
               {t('header.callNow')}
             </a>
@@ -274,7 +330,7 @@ export default function Header() {
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-0">
               {navLinks.map((link, index) => {
                 const linkId = link.key;
                 const isActive = activeSection === linkId;

@@ -14,10 +14,10 @@ export default function Locations() {
   const bgImageUrl = typeof bg2 === 'string' ? bg2 : bg2.src || bg2;
   
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden" id="locations">
+    <main className="md:min-h-[700px] min-h-[620px] max-w-[1520px]   mx-auto bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden" id="locations">
       {/* Background Image with Opacity */}
       <div
-        className="absolute inset-0 bg-no-repeat bg-center bg-cover opacity-30 z-0"
+        className="absolute inset-0 bg-no-repeat bg-center max-h-[620px] md:max-h-[700px] bg-cover opacity-30 z-0 max-w-[1520px] mx-auto"
         style={{
           backgroundImage: `url(${bgImageUrl})`,
         }}
@@ -60,6 +60,9 @@ export default function Locations() {
                 alt="Aerial city view with modern buildings"
                 fill
                 className="object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+                loading="lazy"
+                quality={80}
               />
             </div>
           </div>

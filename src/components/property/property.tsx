@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Check, CheckCircle2 } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 import { propertyImage, warehouseLayout, bg2 } from "@/assets";
 import Image from "next/image";
 import { useWarehouseConfig } from "@/hooks/use-warehouse-config";
@@ -38,12 +38,12 @@ export default function PropertySpecification() {
 
   return (
     <div
-      className="min-h-screen bg-white relative overflow-hidden"
+      className="min-h-[700px] bg-white relative overflow-hidden"
       id="specifications"
     >
       {/* Background Image with Opacity */}
       <div
-        className="absolute inset-0 bg-no-repeat bg-center bg-cover opacity-30 z-0"
+        className="absolute inset-0 bg-no-repeat bg-center max-w-[1520px] md:max-h-[800px] lg:max-h-[700px] mx-auto bg-cover opacity-30 z-0"
         style={{
           backgroundImage: `url(${bgImageUrl})`,
         }}
@@ -73,6 +73,7 @@ export default function PropertySpecification() {
                     ? "text-white shadow-lg bg-[#173C65]"
                     : "bg-blue-50 text-slate-800 hover:bg-blue-100"
                 }`}
+                suppressHydrationWarning
               >
                 {tab.label}
               </button>
@@ -109,7 +110,9 @@ export default function PropertySpecification() {
                   alt="Warehouse Layout"
                   fill
                   className="object-cover transition-opacity duration-500 rounded-[6px_6px_6px_50px]"
-                  priority
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  loading="lazy"
+                  quality={80}
                 />
               </div>
             </div>

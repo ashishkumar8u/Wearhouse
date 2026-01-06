@@ -18,22 +18,22 @@ export default function Banner() {
   const warehouseImages = [warehouseShot1, warehouseShot2, warehouseShot3].filter(Boolean);
   const banners = warehouseImages.length > 0 ? warehouseImages : [banner1, banner2];
 
-  const bgImageUrl = typeof bg1 === 'string' ? bg1 : bg1.src || bg1;
-
   return (
     <section 
       className=" relative overflow-hidden pt-[100px] pb-0 md:pb-20 bg-white" 
       id="home"
     >
-      {/* Background Image with Opacity */}
+      {/* Background Image with Opacity - Low priority, lazy loaded */}
       <div className="absolute inset-0 z-0 pointer-events-none">
   <Image
     src={bg1}
     alt=""
     fill
     sizes="100vw"
-    className="object-cover object-bottom opacity-[0.15]"
+    className="object-cover object-bottom opacity-[0.15] max-w-[1520px] mx-auto"
     priority={false}
+    loading="lazy"
+    quality={75}
   />
 </div>
 
@@ -65,7 +65,8 @@ export default function Banner() {
                 <a
                   href={warehouseConfig.banner.ctaLink}
                   onClick={() => trackButtonClick('banner-cta-desktop')}
-                  className="cta learnmore inline-block mx-auto md:mx-0  px-8 py-4 rounded-lg font-semibold text-base transition-opacity hover:opacity-90 w-fit border-2 bg-white text-black border-[#173C65] font-['Assistant',sans-serif]"
+                  className="cta learnmore hover:-translate-y-1 inline-block mx-auto md:mx-0  px-8 py-4 rounded-lg font-semibold text-white transition-opacity  w-fit border-2 bg-[#173C65]  font-['Assistant',sans-serif]"
+                  suppressHydrationWarning
                 >
                   {warehouseConfig.banner.ctaText}
                 </a>
@@ -97,9 +98,10 @@ export default function Banner() {
                             height={450}
                             className="w-full md:h-[450px] h-[350px] object-cover transition-opacity duration-500 rounded-[6px_6px_6px_50px]"
                             priority={index === 0}
-                            loading="eager"
-                            fetchPriority="high"
+                            loading={index === 0 ? "eager" : "lazy"}
+                            fetchPriority={index === 0 ? "high" : "auto"}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
+                            quality={index === 0 ? 90 : 75}
                           />
                
                       </SwiperSlide>
@@ -112,6 +114,7 @@ export default function Banner() {
                   href={warehouseConfig.banner.ctaLink}
                   onClick={() => trackButtonClick('banner-cta-mobile')}
                   className="cta learnmore  inline-block mx-auto md:mx-0  px-8 py-2 rounded-lg font-semibold text-base transition-opacity hover:opacity-90 w-fit border-2 bg-white text-black border-[#173C65] font-['Assistant',sans-serif]"
+                  suppressHydrationWarning
                 >
                   {warehouseConfig.banner.ctaText}
                 </a>
@@ -124,7 +127,7 @@ export default function Banner() {
       </div>
 
       {/* Decorative Wave Shape */}
-      <div className="absolute bottom-0 left-0 w-full h-80 lg:h-96 pointer-events-none z-0 overflow-hidden">
+      <div className="absolute bottom-0 left-0 max-w-[1520px] mx-auto h-80 lg:h-96 pointer-events-none z-0 overflow-hidden">
         <svg
           className="absolute bottom-0 left-0 w-full h-full"
           viewBox="0 0 1200 400"

@@ -60,6 +60,7 @@ export default function ContactMethods() {
             className="group flex items-center justify-center w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 hover:shadow-xl border-2 bg-white text-black border-[#173C65]"
             aria-label="Call us"
             title={`Call ${warehouseConfig.contact.phoneNumber}`}
+            suppressHydrationWarning
           >
             <svg
               className="w-6 h-6"
@@ -91,6 +92,7 @@ export default function ContactMethods() {
             setIsExpanded(!isExpanded);
           }}
           className="w-fit mx-auto py-3 px-4 flex  items-center justify-between  font-['Assistant',sans-serif]"
+          suppressHydrationWarning
         >
           <span className="font-bold text-gray-700 ">{t('contact.contactUs')}</span>
           <svg
@@ -140,6 +142,7 @@ export default function ContactMethods() {
                   handleCall();
                 }}
                 className="flex flex-col items-center justify-center py-3 px-2 rounded-lg transition-all duration-200 hover:opacity-90 border-2 bg-white text-black border-[#173C65]"
+                suppressHydrationWarning
               >
                 <svg
                   className="w-6 h-6 mb-1"
@@ -171,7 +174,7 @@ export default function ContactMethods() {
           const bgImageUrl = typeof bg2 === 'string' ? bg2 : bg2.src || bg2;
           return (
             <div
-              className="absolute inset-0 bg-no-repeat bg-center bg-cover opacity-30 z-0"
+              className="absolute max-w-[1520px] mx-auto inset-0 bg-no-repeat bg-center bg-cover opacity-30 z-0"
               style={{
                 backgroundImage: `url(${bgImageUrl})`,
               }}
@@ -235,6 +238,7 @@ export default function ContactMethods() {
                   handleCall();
                 }}
                 className="group flex flex-col items-center justify-center p-2 rounded-2xl border-2 border-gray-200 hover:border-blue-500 transition-all duration-300 hover:shadow-xl bg-white"
+                suppressHydrationWarning
               >
                 <div
                   className="w-12 h-12 rounded-full flex items-center justify-center mb-2 transition-transform duration-300 group-hover:scale-110 bg-[#2563EB]"
