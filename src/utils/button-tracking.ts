@@ -76,7 +76,7 @@ export async function trackButtonClick(buttonId: string): Promise<void> {
     };
 
     // Send API request - fire and forget, don't block UI
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}`, {
+    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/metadata/metadata`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
