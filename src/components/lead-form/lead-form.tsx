@@ -311,7 +311,7 @@ export default function LeadForm() {
           {field.required && <span className="text-blue-500 ml-1">*</span>}
         </label>
         <input
-          type={field.type}
+          type={field.type === "tel" ? "number" : undefined}
           id={field.name}
           name={field.name}
           value={value}
