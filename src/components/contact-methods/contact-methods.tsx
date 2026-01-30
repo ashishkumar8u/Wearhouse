@@ -223,7 +223,7 @@ export default function ContactMethods() {
                   {t('contact.whatsapp')}
                 </h3>
                 <p
-                  className="text-xs text-gray-600 text-center font-['Assistant',sans-serif]"
+                  className="text-xs md:text-sm text-gray-600 text-center font-['Assistant',sans-serif]"
                 >
                   {t('contact.chatWithUs')}
                 </p>
@@ -264,7 +264,7 @@ export default function ContactMethods() {
                   {t('contact.callUs')}
                 </h3>
                 <p
-                  className="text-xs text-gray-600 text-center font-['Assistant',sans-serif]"
+                  className="text-xs md:text-sm text-gray-600 text-center font-['Assistant',sans-serif]"
                 >
                   {warehouseConfig.contact.phoneNumber}
                 </p>

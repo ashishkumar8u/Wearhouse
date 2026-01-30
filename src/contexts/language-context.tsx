@@ -41,9 +41,10 @@ const translations: Record<Language, Record<string, string>> = {
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
+  // Always start with 'en' to ensure server and client initial render match
   const [language, setLanguageState] = useState<Language>('en');
 
-  // Load language from localStorage on mount
+  // Load language from localStorage after mount to prevent hydration mismatch
   useEffect(() => {
     const savedLanguage = localStorage.getItem('language') as Language;
     if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'es')) {

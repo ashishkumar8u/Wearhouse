@@ -113,7 +113,7 @@ export default function Banner() {
                 <a
                   href={warehouseConfig.banner.ctaLink}
                   onClick={() => trackButtonClick('banner-cta-mobile')}
-                  className="cta learnmore  inline-block mx-auto md:mx-0  px-8 py-2 rounded-lg font-semibold text-base transition-opacity hover:opacity-90 w-fit border-2 bg-white text-black border-[#173C65] font-['Assistant',sans-serif]"
+                  className="cta learnmore hover:-translate-y-1 inline-block mx-auto md:mx-0  px-8 py-2 rounded-lg font-semibold text-base transition-opacity w-fit border-2 bg-[#173C65] text-white font-['Assistant',sans-serif]"
                   suppressHydrationWarning
                 >
                   {warehouseConfig.banner.ctaText}

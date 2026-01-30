@@ -16,7 +16,7 @@ export default function LeadForm() {
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   const apiHost = useMemo(() => {
-    const host = process.env.NEXT_PUBLIC_API_HOST || process.env.NEXT_PUBLIC_BASE_URL || "";
+    const host = process.env.NEXT_PUBLIC_API_HOST || process.env.NEXT_PUBLIC_API_HOST|| "";
     return host.endsWith("/") ? host.slice(0, -1) : host;
   }, []);
 
@@ -190,7 +190,7 @@ export default function LeadForm() {
         },
       };
 
-      const response = await fetch(`${apiHost}/forms`, {
+      const response = await fetch(`${apiHost}/api/v1/forms/submit-form`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -335,7 +335,7 @@ export default function LeadForm() {
   return (
     <section
       id="contact"
-      className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-white scroll-mt-20"
+      className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-white scroll-mt-20 max-w-[1520px] mx-auto"
     >
       <div className="container max-w-4xl mx-auto px-4 md:px-6 lg:px-8">
         {/* Header */}

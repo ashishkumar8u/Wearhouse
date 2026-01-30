@@ -62,11 +62,13 @@ export default function Apartments() {
         <div className="text-center mb-6 md:mb-12 lg:mb-16">
           <h2
             className="text-xl   lg:text-2xl xl:text-3xl fw-bold font-libre mb-3   md:mb-6 text-[#173C65] "
+            suppressHydrationWarning
           >
             {warehouseConfig.warehouseFeatures.title}
           </h2>
           <p
             className="text-sm md:text-base max-w-2xl mx-auto leading-relaxed text-(--gray) font-(--font-family-sans-serif)"
+            suppressHydrationWarning
           >
             {warehouseConfig.warehouseFeatures.subtitle}
           </p>
@@ -136,7 +138,7 @@ export default function Apartments() {
                       {/* Description */}
                       {card.description && (
                         <p
-                          className="text-sm text-(--gray) mx-9  font-(--font-family-sans-serif)"
+                          className="text-sm md:text-base text-(--gray) mx-9  font-(--font-family-sans-serif)"
                         >
                           {card.description}
                         </p>

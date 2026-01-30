@@ -42,7 +42,7 @@ export default function AvailabilityPricing() {
                 {availability.status}
               </h3>
               <p
-                className="text-sm text-gray-600 flex-grow"
+                className="text-sm md:text-base text-gray-600 flex-grow"
                 style={{
                   fontFamily: "Assistant, sans-serif",
                 }}
@@ -70,7 +70,7 @@ export default function AvailabilityPricing() {
                 {availability.pricing}
               </h3>
               <p
-                className="text-sm text-gray-600 flex-grow"
+                className="text-sm md:text-base text-gray-600 flex-grow"
                 style={{
                   fontFamily: "Assistant, sans-serif",
                 }}
@@ -98,7 +98,7 @@ export default function AvailabilityPricing() {
                 {t('availability.leaseTerms')}
               </h3>
               <p
-                className="text-sm text-gray-600 flex-grow"
+                className="text-sm md:text-base text-gray-600 flex-grow"
                 style={{
                   fontFamily: "Assistant, sans-serif",
                 }}

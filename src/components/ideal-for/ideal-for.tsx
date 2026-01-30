@@ -25,7 +25,7 @@ export default function IdealFor() {
   };
 
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-white" id="ideal-for">
+    <section className="py-16 lg:py-24 bg-gradient-to-br from-slate-50 to-white max-w-[1520px] mx-auto" id="ideal-for">
       <div className="container xl:max-w-7xl w-[94%] mx-auto ">
         {/* Header */}
         <div className="text-center mb-8 md:mb-12 lg:mb-16">
@@ -65,7 +65,7 @@ export default function IdealFor() {
                         {industry.name}
                       </h3>
                       <p
-                        className="text-sm text-gray-600 leading-relaxed font-['Assistant',sans-serif]"
+                        className="text-sm md:text-base text-gray-600 leading-relaxed font-['Assistant',sans-serif]"
                       >
                         {industry.description}
                       </p>
@@ -93,7 +93,7 @@ export default function IdealFor() {
                         {industry.name}
                       </h3>
                       <p
-                        className="text-sm text-gray-600 leading-relaxed font-['Assistant',sans-serif]"
+                        className="text-sm md:text-base text-gray-600 leading-relaxed font-['Assistant',sans-serif]"
                       >
                         {industry.description}
                       </p>

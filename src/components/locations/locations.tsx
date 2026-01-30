@@ -14,10 +14,10 @@ export default function Locations() {
   const bgImageUrl = typeof bg2 === 'string' ? bg2 : bg2.src || bg2;
   
   return (
-    <main className="md:min-h-[700px] min-h-[620px] max-w-[1520px]   mx-auto bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden" id="locations">
+    <main className="md:min-h-[700px] min-h-[620px] max-w-[1520px] mx-auto bg-gradient-to-br from-slate-50 to-slate-100 relative overflow-hidden" id="locations">
       {/* Background Image with Opacity */}
       <div
-        className="absolute inset-0 bg-no-repeat bg-center max-h-[620px] md:max-h-[700px] bg-cover opacity-30 z-0 max-w-[1520px] mx-auto"
+        className="absolute inset-0 bg-no-repeat bg-center bg-cover opacity-30 z-0 max-w-[1520px] mx-auto"
         style={{
           backgroundImage: `url(${bgImageUrl})`,
         }}
@@ -37,8 +37,8 @@ export default function Locations() {
         </div>
 
         {/* Main Content Section */}
-        <div className="md:pb-20 ">
-        <div className="grid md:grid-cols-2 gap-12 items-stretch">
+        <div className="pb-12 md:pb-20">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-stretch">
           {/* Left Column - Highlights */}
           <div className="flex flex-col">
             <h2 className="md:text-xl text-lg font-bold mb-4 md:mb-8 text-[#173C65] font-['Libre_Baskerville',Georgia,serif] font-normal">{t('locations.strategicAccessPoints')}</h2>
@@ -53,8 +53,8 @@ export default function Locations() {
           </div>
 
           {/* Right Column - Image */}
-          <div className="flex justify-center h-full">
-            <div className="w-full h-full relative rounded-2xl overflow-hidden shadow-lg">
+          <div className="flex justify-center h-full w-full">
+            <div className="w-full h-[300px] md:h-full relative rounded-2xl overflow-hidden shadow-lg">
               <Image
                 src={locationImage}
                 alt="Aerial city view with modern buildings"

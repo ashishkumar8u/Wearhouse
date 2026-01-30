@@ -61,7 +61,7 @@ export default function LocationComparison() {
                       {location.name}
                     </h3>
                   </div>
-                  <p className="text-sm text-gray-600 mb-3 font-['Assistant',sans-serif]">
+                  <p className="text-sm md:text-base text-gray-600 mb-3 font-['Assistant',sans-serif]">
                     {location.address}
                   </p>
                 </div>
@@ -99,7 +99,7 @@ export default function LocationComparison() {
                     {location.usps.map((usp: string, uspIndex: number) => (
                       <li key={uspIndex} className="flex items-start gap-3">
                         <CheckCircle2 className="md:w-6 md:h-6 h-4 w-6 shrink-0 text-[#173C65]" />
-                        <span className="text-sm text-gray-700 font-['Assistant',sans-serif]">
+                        <span className="text-sm md:text-base text-gray-700 font-['Assistant',sans-serif]">
                           {usp}
                         </span>
                       </li>
@@ -127,7 +127,7 @@ export default function LocationComparison() {
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={() => trackButtonClick(`location-comparison-map-${index}-${location.name.toLowerCase().replace(/\s+/g, '-')}`)}
-                      className="inline-flex items-center gap-2 text-sm font-medium hover:opacity-80 transition-opacity text-[#173C65] font-['Assistant',sans-serif]"
+                      className="inline-flex items-center gap-2 text-sm md:text-base font-medium hover:opacity-80 transition-opacity text-[#173C65] font-['Assistant',sans-serif]"
                     >
                       <span>{t('locationComparison.openInMaps')}</span>
                       <ExternalLink className="w-4 h-4" />

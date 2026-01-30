@@ -254,7 +254,7 @@ export default function Header() {
               alt="NEWMARK Logo"
               width={180}
               height={45}
-              className="h-6 w-auto"
+              className="h-5 md:h-6 w-auto"
               priority
               quality={90}
               sizes="180px"
@@ -268,7 +268,7 @@ export default function Header() {
                 trackButtonClick('header-mobile-language-toggle');
                 toggleLanguage();
               }}
-              className="inline-flex items-center justify-center text-sm font-semibold text-[#173C65] bg-white border border-[#173C65] px-3 py-2 rounded-md shadow-sm hover:bg-[#EFF6FF] transition-colors"
+              className="inline-flex items-center justify-center h-9 text-sm font-semibold text-[#173C65] bg-white border border-[#173C65] px-3 rounded-md shadow-sm hover:bg-[#EFF6FF] transition-colors"
               aria-label="Toggle language"
             >
               {language === 'en' ? 'ES' : 'EN'}
@@ -276,7 +276,7 @@ export default function Header() {
             <a
               href={`tel:${formattedPhoneNumber}`}
               onClick={() => trackButtonClick('header-mobile-call-now')}
-              className="inline-flex items-center justify-center text-sm font-semibold text-white bg-[#173C65] px-3 py-2 rounded-md shadow-sm"
+              className="inline-flex items-center justify-center h-9 text-sm font-semibold text-white bg-[#173C65] px-3 rounded-md shadow-sm"
             >
               {t('header.callNow')}
             </a>
@@ -312,7 +312,7 @@ export default function Header() {
                 trackButtonClick('header-language-toggle');
                 toggleLanguage();
               }}
-              className="inline-flex items-center justify-center text-sm font-semibold text-[#173C65] bg-white border border-[#173C65] px-4 py-2 rounded-md shadow-sm hover:bg-[#EFF6FF] transition-colors"
+              className="inline-flex items-center justify-center h-9 text-sm font-semibold text-[#173C65] bg-white border border-[#173C65] px-4 rounded-md shadow-sm hover:bg-[#EFF6FF] transition-colors"
               aria-label="Toggle language"
             >
               {language === 'en' ? 'ES' : 'EN'}
@@ -320,7 +320,7 @@ export default function Header() {
             <a
               href={`tel:${formattedPhoneNumber}`}
               onClick={() => trackButtonClick('header-desktop-call-now')}
-              className="inline-flex hover:-translate-y-1 items-center justify-center text-sm font-semibold text-white bg-[#173C65] px-4 py-2 rounded-md shadow-sm"
+              className="inline-flex hover:-translate-y-1 items-center justify-center h-9 text-sm font-semibold text-white bg-[#173C65] px-4 rounded-md shadow-sm"
             >
               {t('header.callNow')}
             </a>

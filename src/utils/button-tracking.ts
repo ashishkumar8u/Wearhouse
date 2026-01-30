@@ -70,13 +70,13 @@ export async function trackButtonClick(buttonId: string): Promise<void> {
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
       project_id: process.env.NEXT_PUBLIC_PROJECT_ID,
       button_id: buttonId,
-      count: 1,
-      ip_address,
       timezone,
+      ip_address,
     };
 
     // Send API request - fire and forget, don't block UI
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/metadata/metadata`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_HOST}
+/api/v1/meta-data/submit-meta-data`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
