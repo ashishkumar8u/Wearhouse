@@ -77,28 +77,27 @@ export async function trackButtonClick(buttonId: string): Promise<void> {
       ip_address,
       "other": {
         "browser": {
-            "name": ua_parsed.browser.name ?? null,
-            "version": ua_parsed.browser.version ?? null
+            "name": ua_parsed.browser.name || null,
+            "version": ua_parsed.browser.version || null
         },
         "device": {
-            "model": ua_parsed.device.model ?? null,
-            "type": ua_parsed.device.type ?? null,
-            "vendor": ua_parsed.device.vendor ?? null
+            "model": ua_parsed.device.model || null,
+            "type": ua_parsed.device.type || null,
+            "vendor": ua_parsed.device.vendor || null
         },
         "engine": {
-            "name": ua_parsed.engine.name ?? null,
-            "version": ua_parsed.engine.version ?? null
+            "name": ua_parsed.engine.name || null,
+            "version": ua_parsed.engine.version || null
         },
         "os": {
-            "name": ua_parsed.os.name ?? null,
-            "version": ua_parsed.os.version ?? null
+            "name": ua_parsed.os.name || null,
+            "version": ua_parsed.os.version || null
         }
     }
     };
 
     // Send API request - fire and forget, don't block UI
-    fetch(`${process.env.NEXT_PUBLIC_API_HOST}
-/api/v1/meta-data/submit-meta-data`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/v1/meta-data/submit-meta-data`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

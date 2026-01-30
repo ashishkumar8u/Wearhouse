@@ -177,8 +177,8 @@ export default function LeadForm() {
       }
 
       const payload = {
-        client_id: clientId,
-        project_id: process.env.NEXT_PUBLIC_PROJECT_ID,
+        client_id: clientId ?? "",
+        project_id: process.env.NEXT_PUBLIC_PROJECT_ID ?? "",
         form_data: {
           full_name: formData.fullName?.trim() || "",
           company_name: formData.companyName?.trim() || "",
@@ -188,33 +188,31 @@ export default function LeadForm() {
           preferred_location: formData.preferredLocation?.trim() || "",
           monthly_budget: toNumberIfPossible(formData.budget),
           lease_duration: formData.leaseDuration?.trim() || "",
-          timeline_to_move_in: formData.timeline?.trim() || "",
+          timeline_to_move_in: formData.timeline?.trim() || "Not specified",
           additional_information: formData.additionalNotes?.trim() || "",
           timezone,
           ip_address,
           browser,
           device_type,
-          // ua_parsed,
-          
-"other": {
-        "browser": {
-            "name": ua_parsed.browser.name ?? null,
-            "version": ua_parsed.browser.version ?? null
         },
-        "device": {
-            "model": ua_parsed.device.model ?? null,
-            "type": ua_parsed.device.type ?? null,
-            "vendor": ua_parsed.device.vendor ?? null
-        },
-        "engine": {
-            "name": ua_parsed.engine.name ?? null,
-            "version": ua_parsed.engine.version ?? null
-        },
-        "os": {
-            "name": ua_parsed.os.name ?? null,
-            "version": ua_parsed.os.version ?? null
-        }
-    }
+        other: {
+          browser: {
+            name: ua_parsed.browser.name || null,
+            version: ua_parsed.browser.version || null,
+          },
+          device: {
+            model: ua_parsed.device.model || null,
+            type: ua_parsed.device.type || null,
+            vendor: ua_parsed.device.vendor || null,
+          },
+          engine: {
+            name: ua_parsed.engine.name || null,
+            version: ua_parsed.engine.version || null,
+          },
+          os: {
+            name: ua_parsed.os.name || null,
+            version: ua_parsed.os.version || null,
+          },
         },
       };
 
@@ -222,7 +220,7 @@ export default function LeadForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": apiKey,
+          "X-API-Key": apiKey,
         },
         body: JSON.stringify(payload),
       });
