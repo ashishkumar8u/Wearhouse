@@ -4,26 +4,28 @@
 async function getClientIP(): Promise<string> {
   // Try multiple IP services as fallbacks
   const ipServices = [
-    'https://api.ipify.org?format=json',
-    'https://api64.ipify.org?format=json',
-    'https://ipapi.co/json/',
+    "https://api.ipify.org?format=json",
+    "https://api64.ipify.org?format=json",
+    "https://ipapi.co/json/",
   ];
 
   for (const service of ipServices) {
     try {
       const response = await fetch(service, {
-        method: 'GET',
-        headers: { 'Accept': 'application/json' },
+        method: "GET",
+        headers: { Accept: "application/json" },
       });
-      
+
       if (response.ok) {
         const data = await response.json();
         const ip = data.ip || data.query;
-        
+
         // Validate IP address format (IPv4 or IPv6)
         // IPv4: xxx.xxx.xxx.xxx or IPv6: xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxxx (with various valid formats)
-        const ipv4Regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-        const ipv6Regex = /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$|^::1$|^::$/;
+        const ipv4Regex =
+          /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+        const ipv6Regex =
+          /^(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$|^::1$|^::$/;
         if (ip && (ipv4Regex.test(ip) || ipv6Regex.test(ip))) {
           return ip;
         }
@@ -33,11 +35,13 @@ async function getClientIP(): Promise<string> {
       continue;
     }
   }
-  
+
   // If all services fail, return a placeholder IPv4 address
   // This ensures the API validation passes
-  console.warn('Failed to fetch client IP from all services, using placeholder');
-  return '0.0.0.0';
+  console.warn(
+    "Failed to fetch client IP from all services, using placeholder",
+  );
+  return "0.0.0.0";
 }
 
 /**
@@ -45,10 +49,10 @@ async function getClientIP(): Promise<string> {
  */
 function getTimezone(): string {
   try {
-    if (typeof window === 'undefined') return 'UTC';
-    return Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+    if (typeof window === "undefined") return "UTC";
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
   } catch (error) {
-    return 'UTC';
+    return "UTC";
   }
 }
 
@@ -63,28 +67,28 @@ export async function trackButtonClick(buttonId: string): Promise<void> {
     const timezone = getTimezone();
 
     const payload = {
-      client_id: 'df23fd13-4870-4026-b5e3-453ef46ec23f',
-      project_id: '021707e8-d447-437f-9c8b-c1f428ea5036',
+      client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+      project_id: process.env.NEXT_PUBLIC_PROJECT_ID,
       button_id: buttonId,
       timezone,
       ip_address,
     };
 
     // Send API request - fire and forget, don't block UI
-    fetch('https://collection.apinext.in/api/v1/meta-data/submit-meta-data', {
-      method: 'POST',
+    fetch(`${process.env.NEXT_PUBLIC_API_HOST}
+/api/v1/meta-data/submit-meta-data`, {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': 'gAAAAABpcf813uh74UBTj6tu_mJEV070sLMcOT2APOjp11QM9XRdkLIH4Pqv_PbfFxnFjT5RcrA_yF-iCmvhq6UTflywJwKdgG17LaaA6o84VO022vmADRUndjcWBMpyl4lTSolf5xIq',
+        "Content-Type": "application/json",
+        "X-API-Key": `${process.env.NEXT_PUBLIC_API_KEY}`,
       },
       body: JSON.stringify(payload),
     }).catch((error) => {
       // Silently fail - don't interrupt user experience
-      console.error('Button tracking error:', error);
+      console.error("Button tracking error:", error);
     });
   } catch (error) {
     // Silently fail - don't interrupt user experience
-    console.error('Button tracking error:', error);
+    console.error("Button tracking error:", error);
   }
 }
-
