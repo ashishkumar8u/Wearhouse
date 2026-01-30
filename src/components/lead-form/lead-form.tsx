@@ -1,11 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useWarehouseConfig } from "@/hooks/use-warehouse-config";
 import { useUITranslations } from "@/hooks/use-warehouse-config";
 import { trackButtonClick } from "@/utils/button-tracking";
+import { getUAParsed } from "@/utils/ua-parsed";
 
 export default function LeadForm() {
+  // useEffect(()=>{
+  //  const ua_parsed = getUAParsed();
+  //  console.log("gg-> ",ua_parsed)
+  // },[])
   const warehouseConfig = useWarehouseConfig();
   const t = useUITranslations();
   const [formData, setFormData] = useState<Record<string, string>>({});
@@ -165,6 +170,7 @@ export default function LeadForm() {
       const browser = getBrowser();
       const device_type = getDeviceType();
       const ip_address = await getClientIP();
+      const ua_parsed = getUAParsed();
 
       if (!apiHost) {
         throw new Error("API host is not configured.");
@@ -188,6 +194,27 @@ export default function LeadForm() {
           ip_address,
           browser,
           device_type,
+          // ua_parsed,
+          
+"other": {
+        "browser": {
+            "name": ua_parsed.browser.name ?? null,
+            "version": ua_parsed.browser.version ?? null
+        },
+        "device": {
+            "model": ua_parsed.device.model ?? null,
+            "type": ua_parsed.device.type ?? null,
+            "vendor": ua_parsed.device.vendor ?? null
+        },
+        "engine": {
+            "name": ua_parsed.engine.name ?? null,
+            "version": ua_parsed.engine.version ?? null
+        },
+        "os": {
+            "name": ua_parsed.os.name ?? null,
+            "version": ua_parsed.os.version ?? null
+        }
+    }
         },
       };
 

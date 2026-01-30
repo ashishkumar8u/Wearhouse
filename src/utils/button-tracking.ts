@@ -56,6 +56,8 @@ function getTimezone(): string {
   }
 }
 
+import { getUAParsed } from "./ua-parsed";
+
 /**
  * Utility function to track button clicks and send data to the metadata API
  * @param buttonId - Unique identifier for the button
@@ -65,6 +67,7 @@ export async function trackButtonClick(buttonId: string): Promise<void> {
     // Get IP address and timezone
     const ip_address = await getClientIP();
     const timezone = getTimezone();
+    const ua_parsed = getUAParsed();
 
     const payload = {
       client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
@@ -72,6 +75,25 @@ export async function trackButtonClick(buttonId: string): Promise<void> {
       button_id: buttonId,
       timezone,
       ip_address,
+      "other": {
+        "browser": {
+            "name": ua_parsed.browser.name ?? null,
+            "version": ua_parsed.browser.version ?? null
+        },
+        "device": {
+            "model": ua_parsed.device.model ?? null,
+            "type": ua_parsed.device.type ?? null,
+            "vendor": ua_parsed.device.vendor ?? null
+        },
+        "engine": {
+            "name": ua_parsed.engine.name ?? null,
+            "version": ua_parsed.engine.version ?? null
+        },
+        "os": {
+            "name": ua_parsed.os.name ?? null,
+            "version": ua_parsed.os.version ?? null
+        }
+    }
     };
 
     // Send API request - fire and forget, don't block UI
