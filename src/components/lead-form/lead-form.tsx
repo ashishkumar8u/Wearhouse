@@ -1,11 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useWarehouseConfig } from "@/hooks/use-warehouse-config";
 import { useUITranslations } from "@/hooks/use-warehouse-config";
 import { trackButtonClick } from "@/utils/button-tracking";
+import { getUAParsed } from "@/utils/ua-parsed";
 
 export default function LeadForm() {
+  // useEffect(()=>{
+  //  const ua_parsed = getUAParsed();
+  //  console.log("gg-> ",ua_parsed)
+  // },[])
   const warehouseConfig = useWarehouseConfig();
   const t = useUITranslations();
   const [formData, setFormData] = useState<Record<string, string>>({});
@@ -133,12 +138,13 @@ export default function LeadForm() {
         ) {
           newErrors[field.name] = t("form.invalidEmail");
         }
-        if (
-          field.type === "tel" &&
-          formData[field.name] &&
-          !/^[\d\s\-\+\(\)]+$/.test(formData[field.name])
-        ) {
-          newErrors[field.name] = t("form.invalidPhone");
+        if (field.type === "tel" && formData[field.name]) {
+          const digitsOnly = formData[field.name].replace(/\D/g, "");
+          if (/\D/.test(formData[field.name])) {
+            newErrors[field.name] = t("form.invalidPhoneDigits");
+          } else if (digitsOnly.length < 9 || digitsOnly.length > 12) {
+            newErrors[field.name] = t("form.invalidPhoneLength");
+          }
         }
       },
     );
@@ -164,14 +170,15 @@ export default function LeadForm() {
       const browser = getBrowser();
       const device_type = getDeviceType();
       const ip_address = await getClientIP();
+      const ua_parsed = getUAParsed();
 
       if (!apiHost) {
         throw new Error("API host is not configured.");
       }
 
       const payload = {
-        client_id: clientId,
-        project_id: process.env.NEXT_PUBLIC_PROJECT_ID,
+        client_id: clientId ?? "",
+        project_id: process.env.NEXT_PUBLIC_PROJECT_ID ?? "",
         form_data: {
           full_name: formData.fullName?.trim() || "",
           company_name: formData.companyName?.trim() || "",
@@ -181,12 +188,31 @@ export default function LeadForm() {
           preferred_location: formData.preferredLocation?.trim() || "",
           monthly_budget: toNumberIfPossible(formData.budget),
           lease_duration: formData.leaseDuration?.trim() || "",
-          timeline_to_move_in: formData.timeline?.trim() || "",
+          timeline_to_move_in: formData.timeline?.trim() || "Not specified",
           additional_information: formData.additionalNotes?.trim() || "",
           timezone,
           ip_address,
           browser,
           device_type,
+        },
+        other: {
+          browser: {
+            name: ua_parsed.browser.name || null,
+            version: ua_parsed.browser.version || null,
+          },
+          device: {
+            model: ua_parsed.device.model || null,
+            type: ua_parsed.device.type || null,
+            vendor: ua_parsed.device.vendor || null,
+          },
+          engine: {
+            name: ua_parsed.engine.name || null,
+            version: ua_parsed.engine.version || null,
+          },
+          os: {
+            name: ua_parsed.os.name || null,
+            version: ua_parsed.os.version || null,
+          },
         },
       };
 
@@ -194,7 +220,7 @@ export default function LeadForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "x-api-key": apiKey,
+          "X-API-Key": apiKey,
         },
         body: JSON.stringify(payload),
       });
@@ -247,8 +273,8 @@ export default function LeadForm() {
             rows={3}
             className={`w-full px-3 py-2 rounded-lg border transition-all duration-200 font-['Assistant',sans-serif] text-[0.95rem] text-black bg-white ${
               hasError
-                ? "border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
-                : "border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
+                ? "border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200"
+                : "border-gray-300 focus:border-red-500 focus:ring-2 focus:ring-red-100"
             }`}
             placeholder={`Enter ${field.label.toLowerCase()}`}
             suppressHydrationWarning
@@ -310,21 +336,24 @@ export default function LeadForm() {
           {field.required && <span className="text-blue-500 ml-1">*</span>}
         </label>
         <input
-          type={field.type}
+          type={field.type === "tel" ? "number" : undefined}
           id={field.name}
           name={field.name}
           value={value}
           onChange={(e) => handleChange(field.name, e.target.value)}
+          inputMode={field.type === "tel" ? "numeric" : undefined}
+          maxLength={field.type === "tel" ? 12 : undefined}
+          title={field.type === "tel" ? "Only digits (no letters)" : undefined}
           className={`w-full px-4 md:py-3 py-1 rounded-lg border transition-all duration-200 font-['Assistant',sans-serif] text-[0.95rem] text-black bg-white ${
             hasError
-              ? "border-blue-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+              ? "border-red-500 focus:border-red-500 focus:ring-2 focus:ring-red-200"
               : "border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-100"
           }`}
           placeholder={`Enter ${field.label.toLowerCase()}`}
           suppressHydrationWarning
         />
         {hasError && (
-          <p className="mt-1 text-sm text-blue-500 font-['Assistant',sans-serif]">
+          <p className="mt-1 text-sm text-red-500 font-['Assistant',sans-serif]">
             {errors[field.name]}
           </p>
         )}
