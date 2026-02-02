@@ -70,7 +70,7 @@ const spanishTranslations: any = {
         address: "Avenida Prolongación Hidalgo No.3, Col. Pueblo San Pedro Barrientos, Municipio Tlalnepantla De Baez, Edo. De México, C.P. 54010",
         mapLink: "https://maps.app.goo.gl/mgj6YRcikX8zeznC8",
         usps: [
-          " Ubicación infill premium con acceso inmediato a los mercados de consumo y fuerza laboral más robustos de la Ciudad de México",
+          " Ubicación infill premium con acceso  inmediato a los mercados de consumo y fuerza laboral más robustos de la Ciudad de México",
           "Ideal para operaciones de última milla gracias a su proximidad inigualable con CDMX",
           "Acceso directo a carreteras principales como Gustavo Baz y Periférico Norte",
           "Perfecto para e-commerce, cadenas de retail y logística urbana",
