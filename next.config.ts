@@ -30,10 +30,7 @@ const nextConfig: NextConfig = {
     } : false,
   },
   
-  // Experimental features for better performance
-  experimental: {
-    optimizePackageImports: ['lucide-react', 'swiper'],
-  },
+ 
   
   // Headers for better caching
   async headers() {
