@@ -3,10 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactCompiler: true,
 
-  experimental: {
-    turbo: false, // ⬅IMPORTANT
-    optimizePackageImports: ['lucide-react', 'swiper'],
-  },
+  
   
   // Modern JavaScript output - no legacy bundles
   // swcMinify: true,
@@ -30,7 +27,10 @@ const nextConfig: NextConfig = {
     } : false,
   },
   
- 
+  // Experimental features for better performance
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'swiper'],
+  },
   
   // Headers for better caching
   async headers() {
